@@ -26,4 +26,43 @@ function start() {
   }
 }
 
+function klik(i, pole) {
+    if (koniec || pole.disabled) return;
+
+    pole.disabled = true;
+    pole.classList.add("odkryte");
+
+    if (miny.includes(i)) {
+        pole.textContent = "💣";
+        wynik.textContent = "Przegrana!";
+        koniec = true;
+        return;
+    }
+
+    let liczba = 0;
+    let x = i % 6;
+    let y = Math.floor(i / 6);
+
+    for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+            let nx = x + dx;
+            let ny = y + dy;
+
+            if (nx >= 0 && nx < 6 && ny >= 0 && ny < 6) {
+                if (miny.includes(ny * 6 + nx)) {
+                    liczba++;
+                }
+            }
+        }
+    }
+
+    pole.textContent = liczba || "";
+    odkryte++;
+
+    if (odkryte === 30) {
+        wynik.textContent = "Wygrałeś! 🎉";
+        koniec = true;
+    }
+}
+
 start();
